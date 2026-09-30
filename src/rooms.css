@@ -1,0 +1,199 @@
+/* ============================================================================
+   Rooms: each main page has its own place in the building, so it's obvious at a
+   glance where you are. Same bones (panels, tabs, type), different header shape,
+   texture and accent color. Everything here is CSS-only; photos are from the
+   Opry's own Drive (no performance shots).
+     Shows ............ box-office window (wood row letters, marquee bulbs, arched top)
+     To-Do ............ set list (ruled paper, red margin, tape)
+     Needs a yes ...... backstage pass (navy, lanyard slot, die-cut corners)
+     Emails ........... airmail envelope (striped edge, postage stamp)
+     Marketing ........ gig poster (kraft paper, halftone, torn edge, tape)
+     Wednesday & Ideas  corkboard (cork, pinned index card)
+     Contacts & Info .. Rolodex card (rounded card, punched slots)
+     Reports .......... box-office ledger (green-bar paper, tractor-feed holes)
+   ========================================================================== */
+
+main[data-page] { --room: var(--slate); --room-ink: var(--slate); }
+main[data-page="shows"] { --room: #8a4b12; --room-ink: #6b3a0e; }
+main[data-page="to-do"] { --room: #b3261e; --room-ink: #8f1f18; }
+main[data-page="approvals"] { --room: #1d4a60; --room-ink: #173c4f; }
+main[data-page="inbox"] { --room: #1d5c8f; --room-ink: #174a73; }
+main[data-page="marketing"] { --room: #c2410c; --room-ink: #9a3412; }
+main[data-page="wednesday-ideas"] { --room: #7a5a12; --room-ink: #5e450d; }
+main[data-page="contacts-info"] { --room: #2f7a4f; --room-ink: #25613f; }
+main[data-page="reports"] { --room: #3f6f4a; --room-ink: #2f5537; }
+
+/* Every room: panels carry the room color on top; headings take the room ink */
+main[data-page]:not([data-page="my-day"]) .panel { border-top: 3px solid color-mix(in srgb, var(--room) 70%, transparent); }
+main[data-page]:not([data-page="my-day"]) .panel h2 { color: var(--room-ink); }
+
+/* Heroes enter with a small drop, like a sign being hung */
+main[data-page]:not([data-page="my-day"]) > .hero.small { animation: hang .45s cubic-bezier(.2, .9, .3, 1.15) both; transform-origin: top center; }
+@keyframes hang { from { opacity: 0; transform: translateY(-10px) rotate(-.6deg); } }
+
+/* ---------- Sub-tabs: file-folder tabs in the room's color ---------- */
+.pagetabs { gap: 4px; border-bottom: 3px solid var(--room); padding-left: 6px; }
+.pagetabs button { border-radius: 12px 12px 0 0; border: 1.5px solid color-mix(in srgb, var(--room) 35%, #d8cbb6); border-bottom: 0;
+  background: color-mix(in srgb, var(--room) 7%, #fffaf1); color: var(--room-ink); margin-bottom: 0; position: relative; top: 0;
+  transition: top .15s, background .15s; }
+.pagetabs button:hover { top: -2px; background: color-mix(in srgb, var(--room) 14%, #fffaf1); }
+.pagetabs button.on { background: var(--room); border-color: var(--room); color: #fff; top: -3px; padding-bottom: 13px; box-shadow: 0 -3px 8px #0000001a; }
+
+/* ======================= SHOWS: box-office window ======================= */
+main[data-page="shows"] > .hero.small {
+  background: linear-gradient(180deg, #2a1a0ccc, #1b1108e6), url(/photos/tex/rowletters.jpg) center 40% / cover;
+  border: 0; border-radius: 120px 120px 18px 18px / 46px 46px 18px 18px; color: #fdf3dc; padding-top: 40px; text-align: center;
+  box-shadow: 0 14px 30px #3b240f40, inset 0 0 0 6px #6b3a0e;
+}
+main[data-page="shows"] > .hero.small::before { /* marquee bulbs along the arch */
+  inset: 12px 90px auto; height: 10px; border: 0; border-radius: 0;
+  background: radial-gradient(circle, #fff3c4 0 3px, #f5a000 3.5px 4.5px, transparent 5px) 0 0 / 22px 10px repeat-x;
+  filter: drop-shadow(0 0 4px #f5a000aa); animation: chase 1.6s steps(2) infinite;
+}
+@keyframes chase { 50% { background-position: 11px 0; } }
+main[data-page="shows"] > .hero.small p { color: #f7c65a; }
+main[data-page="shows"] > .hero.small h1 { color: #fff7e6; font-family: var(--font-sign); letter-spacing: .04em; text-transform: uppercase; }
+main[data-page="shows"] > .hero.small span { color: #ecdcbf; max-width: 640px; margin: 0 auto; display: block; }
+
+/* ======================= TO-DO: set list ======================= */
+main[data-page="to-do"] > .hero.small {
+  background: linear-gradient(90deg, transparent 54px, #e0564d 54px 56px, transparent 56px),
+    repeating-linear-gradient(180deg, #fffdf6 0 27px, #bcd3ea 27px 28px);
+  border: 1px solid #e4dccb; border-radius: 4px; padding-left: 76px; transform: rotate(-.4deg);
+  box-shadow: 0 1px 0 #fff inset, 0 12px 24px #4a331a24, 6px 6px 0 -1px #f3ecdc, 6px 6px 0 0 #e4dccb;
+}
+main[data-page="to-do"] > .hero.small::before { /* tape */
+  inset: -12px auto auto 50%; width: 120px; height: 26px; border: 0; border-radius: 2px; transform: translateX(-50%) rotate(-2deg);
+  background: #f6e7b8cc; box-shadow: 0 1px 3px #0002;
+}
+main[data-page="to-do"] > .hero.small h1 { font-family: var(--font-sign); color: #1f2a44; }
+main[data-page="to-do"] > .hero.small p { color: #b3261e; }
+
+/* ======================= NEEDS A YES: backstage pass ======================= */
+main[data-page="approvals"] > .hero.small {
+  background: radial-gradient(120% 140% at 100% 0%, #2c607c, #173c4f 60%, #10303f);
+  border: 0; color: #eaf3f7; padding-top: 44px;
+  --notch: radial-gradient(circle at 0 0, transparent 14px, #000 15px) top left, radial-gradient(circle at 100% 0, transparent 14px, #000 15px) top right,
+    radial-gradient(circle at 0 100%, transparent 14px, #000 15px) bottom left, radial-gradient(circle at 100% 100%, transparent 14px, #000 15px) bottom right;
+  -webkit-mask: var(--notch); -webkit-mask-size: 51% 51%; -webkit-mask-repeat: no-repeat;
+  mask: var(--notch); mask-size: 51% 51%; mask-repeat: no-repeat; border-radius: 0;
+}
+main[data-page="approvals"] > .hero.small::before { /* lanyard slot */
+  inset: 14px auto auto 50%; width: 70px; height: 12px; transform: translateX(-50%); border-radius: 8px; border: 0;
+  background: #f4efe6; box-shadow: inset 0 2px 3px #0005;
+}
+main[data-page="approvals"] > .hero.small::after { /* stamp */
+  content: "BACKSTAGE"; position: absolute; right: 26px; bottom: 22px; font: 800 13px/1 var(--font-caps); letter-spacing: .3em;
+  color: #ffffff2a; border: 2px solid #ffffff2a; padding: 6px 10px; border-radius: 6px; transform: rotate(-6deg);
+}
+main[data-page="approvals"] > .hero.small p { color: #9fc6d8; }
+main[data-page="approvals"] > .hero.small h1 { color: #fff; }
+main[data-page="approvals"] > .hero.small span { color: #cfe0e8; }
+
+/* ======================= EMAILS: airmail envelope ======================= */
+main[data-page="inbox"] > .hero.small {
+  background: #fffdf8; border: 10px solid transparent; border-radius: 6px;
+  border-image: repeating-linear-gradient(135deg, #c8312a 0 14px, #fffdf8 14px 20px, #1d5c8f 20px 34px, #fffdf8 34px 40px) 10;
+  padding-right: 220px; box-shadow: 0 10px 24px #1d5c8f1f;
+}
+main[data-page="inbox"] > .hero.small::before { /* postage stamp with a star */
+  inset: 16px 22px auto auto; width: 74px; height: 88px; border: 0; border-radius: 0;
+  background: radial-gradient(circle at 50% 46%, #f5a000 0 3px, transparent 3.5px),
+    conic-gradient(from 18deg at 50% 46%, #f5a000 0 36deg, transparent 0 72deg, #f5a000 0 108deg, transparent 0 144deg, #f5a000 0 180deg, transparent 0 216deg, #f5a000 0 252deg, transparent 0 288deg, #f5a000 0 324deg, transparent 0) 50% 46% / 40px 40px no-repeat,
+    linear-gradient(#1d5c8f, #174a73);
+  outline: 4px dotted #fffdf8; outline-offset: -2px; box-shadow: 0 0 0 3px #fffdf8, 0 2px 6px #0003;
+  transform: rotate(4deg);
+}
+main[data-page="inbox"] > .hero.small::after { /* postmark */
+  content: "OPRY OPS · BENTON KY"; position: absolute; right: 70px; top: 44px; width: 86px; height: 86px; border-radius: 50%;
+  border: 2px solid #1d5c8f66; color: #1d5c8f88; font: 700 8px/1.2 var(--font-caps); letter-spacing: .12em; display: grid; place-items: center; text-align: center;
+  padding: 18px; transform: rotate(-14deg);
+}
+main[data-page="inbox"] > .hero.small p { color: #c8312a; }
+
+/* ======================= MARKETING: gig poster ======================= */
+main[data-page="marketing"] > .hero.small {
+  background: radial-gradient(circle, #9a341233 1.2px, transparent 1.6px) 0 0 / 9px 9px,
+    linear-gradient(160deg, #f1e2c2, #e7cf9f);
+  border: 0; border-radius: 3px; transform: rotate(.5deg); padding: 34px 34px 40px;
+  clip-path: polygon(0 2%, 4% 0, 12% 1.5%, 22% 0, 35% 1%, 48% 0, 62% 1.5%, 75% 0, 88% 1%, 100% 0, 100% 97%, 94% 100%, 82% 98.5%, 70% 100%, 56% 98%, 42% 100%, 28% 98.5%, 14% 100%, 0 98%);
+  box-shadow: none; filter: drop-shadow(0 10px 14px #6e54302e);
+}
+main[data-page="marketing"] > .hero.small::before { /* tape corners */
+  inset: 6px auto auto 18px; width: 90px; height: 24px; border: 0; border-radius: 2px; transform: rotate(-8deg); background: #fff6d8b3;
+}
+main[data-page="marketing"] > .hero.small h1 { font-family: var(--font-sign); text-transform: uppercase; letter-spacing: .03em; color: #7c2d12; font-size: 38px; }
+main[data-page="marketing"] > .hero.small p { color: #c2410c; }
+
+/* ======================= WEDNESDAY & IDEAS: corkboard ======================= */
+main[data-page="wednesday-ideas"] > .hero.small {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .22  0 0 0 0 .09  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23c)'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #c79a5f, #b3854b);
+  border: 10px solid #6b4a2a; border-radius: 10px; box-shadow: inset 0 0 18px #0004, 0 10px 24px #4a331a33;
+}
+main[data-page="wednesday-ideas"] > .hero.small::before { display: none; }
+main[data-page="wednesday-ideas"] > .hero.small > div { /* the pinned index card */
+  background: repeating-linear-gradient(180deg, #fffef8 0 23px, #cfe0f0 23px 24px); background-position: 0 38px;
+  border-top: 30px solid #fffef8; padding: 0 18px 12px; border-radius: 3px; position: relative;
+  box-shadow: 0 8px 16px #0003; transform: rotate(-1.2deg); transition: transform .25s;
+}
+main[data-page="wednesday-ideas"] > .hero.small > div::before { /* pushpin */
+  content: ""; position: absolute; top: -22px; right: 22px; width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff8a80, #c62828 60%, #8e1b1b); box-shadow: 0 3px 4px #0005;
+}
+main[data-page="wednesday-ideas"] > .hero.small > div:hover { transform: rotate(0deg) translateY(-2px); }
+main[data-page="wednesday-ideas"] > .hero.small > div p { margin-top: -18px; }
+main[data-page="wednesday-ideas"] > .hero.small .heropic { transform: rotate(4deg); }
+
+/* ======================= CONTACTS & INFO: Rolodex card ======================= */
+main[data-page="contacts-info"] > .hero.small {
+  background: linear-gradient(180deg, transparent 58px, #e0564d 58px 60px, transparent 60px), #fffef9;
+  border: 1px solid #e3dccb; border-radius: 16px 16px 16px 16px; padding-bottom: 46px;
+  box-shadow: 0 2px 0 #fff inset, 0 4px 0 -1px #f4efe3, 0 5px 0 -1px #e3dccb, 0 9px 0 -3px #f4efe3, 0 10px 0 -3px #e3dccb, 0 16px 26px #2f7a4f1f;
+}
+main[data-page="contacts-info"] > .hero.small::before { /* punched Rolodex slots */
+  inset: auto auto 12px 50%; width: 150px; height: 20px; transform: translateX(-50%); border: 0; border-radius: 0;
+  background: radial-gradient(ellipse 22px 9px at 22px 50%, #e8e0cf 96%, transparent) left / 44px 20px no-repeat,
+    radial-gradient(ellipse 22px 9px at calc(100% - 22px) 50%, #e8e0cf 96%, transparent) right / 44px 20px no-repeat,
+    linear-gradient(#e8e0cf, #e8e0cf) center / 8px 20px no-repeat;
+  box-shadow: none;
+}
+main[data-page="contacts-info"] > .hero.small p { color: #2f7a4f; }
+
+/* ======================= REPORTS: box-office ledger ======================= */
+main[data-page="reports"] > .hero.small {
+  background: radial-gradient(circle 5px, #f3ecdc 96%, transparent) 10px 8px / 20px 22px repeat-y,
+    radial-gradient(circle 5px, #f3ecdc 96%, transparent) calc(100% - 10px) 8px / 20px 22px repeat-y,
+    linear-gradient(90deg, #fbfcf6 30px, transparent 30px calc(100% - 30px), #fbfcf6 calc(100% - 30px)),
+    repeating-linear-gradient(180deg, #e4f0e0 0 22px, #fbfcf6 22px 44px);
+  border: 1px solid #d5e2cf; border-radius: 2px; padding: 26px 56px;
+  box-shadow: 0 10px 22px #3f6f4a1f;
+}
+main[data-page="reports"] > .hero.small::before { inset: 0 30px; border: 0; border-left: 1px dashed #b9cdb3; border-right: 1px dashed #b9cdb3; border-radius: 0; }
+main[data-page="reports"] > .hero.small p { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; color: #3f6f4a; }
+main[data-page="reports"] > .hero.small h1 { color: #2f5537; }
+
+/* Phones: keep the character, lose the fussy bits */
+@media (width <= 760px) {
+  main[data-page="inbox"] > .hero.small { padding-right: 18px; }
+  main[data-page="inbox"] > .hero.small::before, main[data-page="inbox"] > .hero.small::after { display: none; }
+  main[data-page="shows"] > .hero.small { border-radius: 60px 60px 16px 16px / 26px 26px 16px 16px; }
+  main[data-page="to-do"] > .hero.small { padding-left: 64px; transform: none; }
+  main[data-page="marketing"] > .hero.small h1 { font-size: 28px; }
+  main[data-page="reports"] > .hero.small { padding: 22px 40px; }
+  .pagetabs { overflow-x: auto; flex-wrap: nowrap; }
+  .pagetabs button { white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  main[data-page] > .hero.small, main[data-page="shows"] > .hero.small::before { animation: none; }
+}
+
+/* Phone: long show names in the Add task picker pushed the page sideways */
+@media (width <= 760px) {
+  .addform label { min-width: 0; max-width: 100%; }
+  .addform select, .addform input { max-width: 100%; min-width: 0; width: 100%; }
+}
+
+/* Set password popup */
+.setpw { display: grid; gap: 10px; max-width: 380px; }
+.setpw label { display: grid; gap: 4px; font-weight: 700; }

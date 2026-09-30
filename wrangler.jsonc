@@ -1,0 +1,10 @@
+// Cloudflare deployment: serves the built app (dist/) as static files on the free plan.
+// Build with `npm run build`; VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY must be set as build variables.
+{
+  "name": "opry-ops",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
